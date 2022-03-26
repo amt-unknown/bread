@@ -1,5 +1,6 @@
 //DEPENDENCIES
 const express = require('express');
+const methodOverride = require('method-override')
 
 //CONFIGURATION
 require('dotenv').config();
@@ -7,11 +8,12 @@ const PORT = process.env.PORT;
 const app = express();
 
 //MIDDLEWARE
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
-app.use(express.static('public'))
-app.use(express.urlencoded({ extended: true }))
 
 
 //ROUTES
@@ -27,7 +29,7 @@ app.use('/breads', breadsController);
 
 //Catch all 404 page
 app.get('*', (req,res) => {
-    res.send('404 error: page does not exist');
+    res.status(404).send('404 error: page does not exist');
 });
 
 //LISTEN
