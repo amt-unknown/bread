@@ -1,10 +1,11 @@
 //DEPENDENCIES
 const express = require('express');
-
+const Bread = require('../models/bread.js');
+const Baker = require('../models/baker.js');
 
 //CONFIGURATION
 const breads = express();
-const Bread = require('../models/bread.js');
+
 
 //INDEX
 breads.get('/', (req, res) => {
@@ -37,23 +38,28 @@ breads.post('/', (req, res) => {
 
 //NEW
 breads.get('/new', (req, res) => {
-    res.render('new')
+    Baker.find()
+        .then(foundBakers =>  {
+            res.render('new', {
+                bakers: foundBakers
+            })
+        })
 })
 
 //SHOW
 breads.get('/:id', (req, res) => {
     Bread.findById(req.params.id)
-    .then(foundBread => {
-        const bakedBy = foundBread.getBakedBy()
-        console.log('---------', bakedBy)
-        // console.log(foundBread)
-        res.render('show', {
-            bread: foundBread,
+        .then(foundBread => {
+                const bakedBy = foundBread.getBakedBy()
+                console.log('---------', bakedBy)
+            // console.log(foundBread)
+            res.render('show', {
+                bread: foundBread,
+            })
         })
-    })
-    .catch(err => {
-        res.send('404')
-    })
+        .catch(err => {
+            res.send('404')
+        })
 })
 
 //EDIT
