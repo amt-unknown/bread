@@ -1,6 +1,7 @@
 //Dependencies
 const mongoose = require("mongoose")
 const { Schema } = mongoose
+const Bread = require('./bread.js')
 
 //Schema
 const bakerSchema = new Schema({
@@ -14,8 +15,16 @@ const bakerSchema = new Schema({
         required: true
     },
     bio: String
+    },{toJSON: {virtuals: true}}
+)
+
+// Virtuals
+bakerSchema.virtual('breads', {
+    ref: 'Bread', 
+    localField: '_id', 
+    foreignField: 'baker'
 })
 
 //Model and Export
 const Baker = mongoose.model( 'Baker', bakerSchema)
-module.exports = Baker
+module.exports = Baker  

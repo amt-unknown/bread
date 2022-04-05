@@ -9,13 +9,16 @@ const breads = express();
 
 //INDEX
 breads.get('/', (req, res) => {
-    Bread.find()
-        .then(foundBreads => {
-            // console.log(foundBreads)
-            res.render('Index',
-            {
-                breads: foundBreads,
-                title: 'Index Page'
+    Baker.find()
+        .then(foundBakers => {
+            Bread.find()
+            .then(foundBreads => {
+                res.render('Index',
+                {
+                    breads: foundBreads,
+                    bakers: foundBakers,
+                    title: 'Index Page'
+                })
             })
         })
 });
@@ -51,9 +54,6 @@ breads.get('/:id', (req, res) => {
     Bread.findById(req.params.id)
         .populate('baker')
         .then(foundBread => {
-                const bakedBy = foundBread.getBakedBy()
-                console.log('---------', bakedBy)
-            // console.log(foundBread)
             res.render('show', {
                 bread: foundBread,
             })
@@ -87,7 +87,6 @@ breads.put('/:id', (req, res) => {
     }
     Bread.findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then(updatedBread => {
-            console.log(updatedBread)
             res.redirect(`/breads/${req.params.id}`)
         })
 })

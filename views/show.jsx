@@ -3,7 +3,6 @@ const Default = require('./layouts/Default')
 
 function Show ({bread}) {
     //Confirm we are getting our bread data in the terminal.
-    // console.log(bread.name)
     return (
       <Default>
         <h3>{bread.name}</h3>
