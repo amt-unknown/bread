@@ -18,6 +18,14 @@ const bakerSchema = new Schema({
     },{toJSON: {virtuals: true}}
 )
 
+//Hooks
+bakerSchema.post('findOneAndDelete', function() {
+    Bread.deleteMany({baker: this._conditions._id})
+        .then(deletedStatus => {
+            console.log(deletedStatus)
+        })
+})
+
 // Virtuals
 bakerSchema.virtual('breads', {
     ref: 'Bread', 
