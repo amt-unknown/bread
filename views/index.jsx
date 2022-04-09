@@ -24,7 +24,7 @@ function Index ({breads, bakers, title}) {
                     breads.map((bread,index) => {
                         return (
                         <li key={index}>
-                            <a href={`/breads/${bread.id}`}>
+                            <a href={`/breads/${bread._id}`}>
                                 {bread.name}
                             </a>
                         </li>)
